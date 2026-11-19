@@ -1,0 +1,1465 @@
+<!DOCTYPE html>
+<html lang="es-MX">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>KIZUNA — Lazo de sabores | Reservación y Registro de Alergias</title>
+
+  <!-- Fuente Inter para cuerpo/UI y Playfair Display / Cormorant Garamond para encabezados editoriales -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link
+    href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,500;0,600;0,700;1,500&family=Inter:wght@300;400;500;600;700&display=swap"
+    rel="stylesheet"
+  />
+
+  <!-- Tailwind CSS -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            washi: '#F5EFE6',
+            washiCard: '#FAF6F0',
+            washiDeep: '#EAE1D3',
+            sumi: '#1A1918',
+            sumiSoft: '#4A4642',
+            oak: '#8C6239',
+            oakLight: '#A8794B',
+            hanko: '#B8332A',
+            hankoSoft: '#FCECEB',
+            moss: '#3E5641',
+            mossSoft: '#E7EFE8',
+            amberAlert: '#9A5B13',
+            amberSoft: '#FDF3E5',
+          },
+          fontFamily: {
+            serif: ['"Cormorant Garamond"', 'Georgia', 'serif'],
+            sans: ['"Inter"', 'system-ui', '-apple-system', 'sans-serif'],
+          },
+          boxShadow: {
+            wabi: '0 10px 30px -12px rgba(26, 25, 24, 0.10)',
+            card: '0 4px 18px -6px rgba(26, 25, 24, 0.06)',
+          },
+        },
+      },
+    };
+  </script>
+
+  <style>
+    /* Textura sutil de papel arroz (washi) y detalles estéticos Wabi-Sabi */
+    body {
+      background-color: #F5EFE6;
+      background-image:
+        radial-gradient(rgba(140, 98, 57, 0.06) 1px, transparent 0),
+        radial-gradient(rgba(26, 25, 24, 0.035) 1px, transparent 0);
+      background-size: 28px 28px;
+      background-position: 0 0, 14px 14px;
+      color: #1A1918;
+      font-family: 'Inter', system-ui, -apple-system, sans-serif;
+    }
+
+    .font-editorial {
+      font-family: 'Cormorant Garamond', Georgia, serif;
+    }
+
+    /* Sello hanko japonés sutil */
+    .hanko-seal {
+      border: 1.5px solid #B8332A;
+      color: #B8332A;
+      border-radius: 0.375rem;
+      box-shadow: inset 0 0 0 1px rgba(184, 51, 42, 0.25);
+    }
+
+    /* Transiciones suaves para chips y pestañas */
+    .chip-btn {
+      transition: transform 0.14s ease, background-color 0.18s ease, border-color 0.18s ease, color 0.18s ease;
+    }
+    .chip-btn:active {
+      transform: scale(0.98);
+    }
+
+    @keyframes fadeSlideIn {
+      from {
+        opacity: 0;
+        transform: translateY(8px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+    .animate-in-soft {
+      animation: fadeSlideIn 0.28s ease-out forwards;
+    }
+  </style>
+</head>
+<body class="min-h-screen flex flex-col selection:bg-hanko/15 selection:text-hanko">
+
+  <!-- Barra superior informativa del establecimiento -->
+  <div class="bg-sumi text-washi text-xs sm:text-sm py-2.5 px-4 border-b border-oak/30">
+    <div class="max-w-6xl mx-auto flex flex-wrap items-center justify-between gap-2">
+      <div class="flex items-center gap-2">
+        <span class="inline-block w-2 h-2 rounded-full bg-hanko"></span>
+        <span>Ciudad Satélite, Naucalpan de Juárez, Edo. Méx.</span>
+      </div>
+      <div class="flex flex-wrap items-center gap-x-4 gap-y-1 text-washi/85">
+        <span>Mar–Dom · 13:30 – 23:00</span>
+        <span class="hidden sm:inline text-oakLight">•</span>
+        <span>Ticket prom. $650 MXN</span>
+        <span class="hidden md:inline text-oakLight">•</span>
+        <span class="hidden md:inline">Distintivo H &amp; Trazabilidad</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- 1. Encabezado principal con Kanji '絆', título y eslogan -->
+  <header class="pt-8 pb-6 px-4 sm:px-6 border-b border-oak/20 bg-washiCard/80 backdrop-blur-xs">
+    <div class="max-w-6xl mx-auto">
+      <div class="flex flex-col md:flex-row md:items-center md:justify-between gap-6">
+        <div class="flex items-center gap-4 sm:gap-5">
+          <!-- Emblema Kanji 絆 con sello hanko -->
+          <div class="relative shrink-0">
+            <div class="w-16 h-16 sm:w-20 sm:h-20 rounded-2xl bg-sumi text-washi flex items-center justify-center shadow-wabi border border-oak/40">
+              <span class="font-editorial text-4xl sm:text-5xl font-semibold leading-none select-none" aria-label="Kanji Kizuna">絆</span>
+            </div>
+            <span
+              class="hanko-seal bg-washiCard text-[10px] font-bold tracking-wider px-1.5 py-0.5 -bottom-1.5 -right-1.5 absolute uppercase"
+              title="Sello Kizuna"
+            >
+              縁 • 絆
+            </span>
+          </div>
+
+          <div>
+            <div class="flex flex-wrap items-center gap-2 mb-1">
+              <span class="text-xs font-semibold uppercase tracking-[0.18em] text-oak">
+                Casual Fine · Cocina México–Japonesa
+              </span>
+            </div>
+            <h1 class="font-editorial text-3xl sm:text-5xl font-bold tracking-tight text-sumi leading-none">
+              KIZUNA <span class="text-oak font-normal">—</span> <span class="italic font-medium">Lazo de sabores</span>
+            </h1>
+            <p class="mt-2 text-sm sm:text-base text-sumiSoft font-medium">
+              “Tradición nipona, alma mexicana”
+            </p>
+          </div>
+        </div>
+
+        <!-- Resumen rápido de hospitalidad Omotenashi -->
+        <div class="bg-washi border border-oak/25 rounded-2xl p-3.5 sm:p-4 max-w-sm shadow-card">
+          <p class="text-[11px] font-semibold uppercase tracking-widest text-hanko mb-1">
+            Protocolo Omotenashi &amp; Inocuidad
+          </p>
+          <p class="text-xs sm:text-sm text-sumiSoft leading-relaxed">
+            Registramos alergias antes de tu llegada para preparar utensilios exclusivos, tablas separadas y trazabilidad <strong class="text-sumi font-semibold">Distintivo H</strong>.
+          </p>
+        </div>
+      </div>
+
+      <!-- Navegación de vistas: Reservación y Registro vs. Registro Guardado (Demo UNITEC) -->
+      <nav class="mt-7 flex flex-wrap items-center gap-2 sm:gap-3" aria-label="Secciones de la aplicación">
+        <button
+          type="button"
+          id="tabReservationBtn"
+          onclick="switchTab('reservation')"
+          class="chip-btn px-4 sm:px-5 py-2.5 rounded-xl text-sm font-semibold flex items-center gap-2 bg-sumi text-washi shadow-card cursor-pointer"
+        >
+          <span>1. Reservación y Registro de Alergias</span>
+        </button>
+
+        <button
+          type="button"
+          id="tabRegistryBtn"
+          onclick="switchTab('registry')"
+          class="chip-btn px-4 sm:px-5 py-2.5 rounded-xl text-sm font-semibold flex items-center gap-2 bg-washi border border-oak/30 text-sumi hover:border-oak cursor-pointer"
+        >
+          <span>2. Bitácora de Reservaciones y Alergias</span>
+          <span
+            id="registryCountBadge"
+            class="inline-flex items-center justify-center min-w-5 h-5 px-1.5 text-xs font-bold rounded-full bg-hanko text-white"
+          >
+            3
+          </span>
+        </button>
+      </nav>
+    </div>
+  </header>
+
+  <!-- Contenedor principal -->
+  <main class="flex-1 max-w-6xl w-full mx-auto px-4 sm:px-6 py-8">
+
+    <!-- Banner de notificaciones no bloqueante (sin alert/confirm) -->
+    <div id="toastBanner" class="hidden mb-6 rounded-2xl px-4 py-3 text-sm font-medium border animate-in-soft" role="status"></div>
+
+    <!-- VISTA 1: FORMULARIO DE RESERVACIÓN + CONFIRMACIÓN EN VIVO -->
+    <section id="viewReservation" class="grid grid-cols-1 lg:grid-cols-12 gap-7 items-start">
+
+      <!-- 2. Formulario de Reservación y Registro de Alergias (7 columnas en escritorio) -->
+      <div class="lg:col-span-7 bg-washiCard border border-oak/25 rounded-3xl p-5 sm:p-8 shadow-wabi">
+        <div class="flex flex-wrap items-baseline justify-between gap-2 pb-5 mb-6 border-b border-oak/15">
+          <div>
+            <span class="text-xs font-semibold uppercase tracking-[0.16em] text-oak">Paso previo a tu mesa</span>
+            <h2 class="font-editorial text-2xl sm:text-3xl font-bold text-sumi mt-0.5">
+              Reserva tu lugar y declara tus alergias
+            </h2>
+          </div>
+          <span class="text-xs text-sumiSoft bg-washi px-3 py-1 rounded-full border border-oak/20">
+            Mar–Dom · 13:30–23:00
+          </span>
+        </div>
+
+        <form id="reservationForm" onsubmit="handleReservationSubmit(event)" class="space-y-6" novalidate>
+
+          <!-- Datos del comensal -->
+          <div>
+            <h3 class="text-xs font-bold uppercase tracking-wider text-sumiSoft mb-3">
+              Datos del comensal
+            </h3>
+            <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+              <div class="sm:col-span-2">
+                <label for="guestName" class="block text-sm font-medium text-sumi mb-1.5">
+                  Nombre completo <span class="text-hanko">*</span>
+                </label>
+                <input
+                  type="text"
+                  id="guestName"
+                  name="guestName"
+                  required
+                  placeholder="Ej. Valeria Mendoza Ortiz"
+                  class="w-full rounded-xl bg-washi border border-oak/30 px-4 py-2.5 text-sm text-sumi placeholder:text-sumiSoft/55 focus:outline-none focus:ring-2 focus:ring-oak/40 focus:border-oak"
+                />
+                <p id="errGuestName" class="hidden text-xs text-hanko mt-1">Por favor ingresa el nombre del comensal.</p>
+              </div>
+
+              <div>
+                <label for="guestEmail" class="block text-sm font-medium text-sumi mb-1.5">
+                  Correo electrónico <span class="text-hanko">*</span>
+                </label>
+                <input
+                  type="email"
+                  id="guestEmail"
+                  name="guestEmail"
+                  required
+                  placeholder="valeria.mendoza@correo.mx"
+                  class="w-full rounded-xl bg-washi border border-oak/30 px-4 py-2.5 text-sm text-sumi placeholder:text-sumiSoft/55 focus:outline-none focus:ring-2 focus:ring-oak/40 focus:border-oak"
+                />
+                <p id="errGuestEmail" class="hidden text-xs text-hanko mt-1">Ingresa un correo electrónico válido.</p>
+              </div>
+
+              <div>
+                <label for="guestPhone" class="block text-sm font-medium text-sumi mb-1.5">
+                  Teléfono / WhatsApp <span class="text-hanko">*</span>
+                </label>
+                <input
+                  type="tel"
+                  id="guestPhone"
+                  name="guestPhone"
+                  required
+                  placeholder="Ej. 55 4892 3104"
+                  class="w-full rounded-xl bg-washi border border-oak/30 px-4 py-2.5 text-sm text-sumi placeholder:text-sumiSoft/55 focus:outline-none focus:ring-2 focus:ring-oak/40 focus:border-oak"
+                />
+                <p id="errGuestPhone" class="hidden text-xs text-hanko mt-1">Ingresa un número de contacto.</p>
+              </div>
+            </div>
+          </div>
+
+          <!-- Fecha, horario (13:30-23:00 Mar-Dom) y número de personas -->
+          <div class="pt-4 border-t border-oak/15">
+            <h3 class="text-xs font-bold uppercase tracking-wider text-sumiSoft mb-3">
+              Fecha, horario y comensales
+            </h3>
+            <div class="grid grid-cols-1 sm:grid-cols-3 gap-4">
+              <div>
+                <label for="resDate" class="block text-sm font-medium text-sumi mb-1.5">
+                  Fecha (Mar–Dom) <span class="text-hanko">*</span>
+                </label>
+                <input
+                  type="date"
+                  id="resDate"
+                  name="resDate"
+                  required
+                  onchange="validateDateAndUpdateSlots()"
+                  class="w-full rounded-xl bg-washi border border-oak/30 px-3.5 py-2.5 text-sm text-sumi focus:outline-none focus:ring-2 focus:ring-oak/40 focus:border-oak"
+                />
+                <p id="errResDate" class="hidden text-xs text-hanko mt-1">KIZUNA abre de martes a domingo.</p>
+              </div>
+
+              <div>
+                <label for="resTime" class="block text-sm font-medium text-sumi mb-1.5">
+                  Horario <span class="text-hanko">*</span>
+                </label>
+                <select
+                  id="resTime"
+                  name="resTime"
+                  required
+                  class="w-full rounded-xl bg-washi border border-oak/30 px-3.5 py-2.5 text-sm text-sumi focus:outline-none focus:ring-2 focus:ring-oak/40 focus:border-oak"
+                >
+                  <option value="13:30">13:30 hrs</option>
+                  <option value="14:00">14:00 hrs</option>
+                  <option value="14:30">14:30 hrs</option>
+                  <option value="15:15">15:15 hrs</option>
+                  <option value="16:00">16:00 hrs</option>
+                  <option value="17:00">17:00 hrs</option>
+                  <option value="18:00">18:00 hrs</option>
+                  <option value="19:00" selected>19:00 hrs</option>
+                  <option value="19:30">19:30 hrs</option>
+                  <option value="20:15">20:15 hrs</option>
+                  <option value="21:00">21:00 hrs</option>
+                  <option value="21:45">21:45 hrs</option>
+                  <option value="22:15">22:15 hrs (último turno)</option>
+                </select>
+                <p class="text-[11px] text-sumiSoft mt-1">Servicio continuo 13:30–23:00.</p>
+              </div>
+
+              <div>
+                <label for="partySize" class="block text-sm font-medium text-sumi mb-1.5">
+                  Personas <span class="text-hanko">*</span>
+                </label>
+                <select
+                  id="partySize"
+                  name="partySize"
+                  class="w-full rounded-xl bg-washi border border-oak/30 px-3.5 py-2.5 text-sm text-sumi focus:outline-none focus:ring-2 focus:ring-oak/40 focus:border-oak"
+                >
+                  <option value="1">1 persona</option>
+                  <option value="2" selected>2 personas</option>
+                  <option value="3">3 personas</option>
+                  <option value="4">4 personas</option>
+                  <option value="5">5 personas</option>
+                  <option value="6">6 personas</option>
+                  <option value="8">8 personas (Salón)</option>
+                </select>
+                <p class="text-[11px] text-sumiSoft mt-1">Ticket prom. $650 MXN/persona.</p>
+              </div>
+            </div>
+          </div>
+
+          <!-- Preferencia de espacio: Salón Principal vs. Barra Omakase -->
+          <div class="pt-4 border-t border-oak/15">
+            <h3 class="text-xs font-bold uppercase tracking-wider text-sumiSoft mb-3">
+              Preferencia de espacio
+            </h3>
+            <div class="grid grid-cols-1 sm:grid-cols-2 gap-3.5">
+              <label class="relative cursor-pointer">
+                <input
+                  type="radio"
+                  name="seatingSpace"
+                  value="Salón Principal"
+                  checked
+                  class="peer sr-only"
+                  onchange="syncLivePreview()"
+                />
+                <div class="h-full rounded-2xl border border-oak/30 bg-washi p-4 transition peer-checked:border-sumi peer-checked:bg-sumi peer-checked:text-washi hover:border-oak">
+                  <div class="flex items-center justify-between gap-2">
+                    <span class="font-semibold text-sm">Salón Principal</span>
+                    <span class="text-[11px] px-2 py-0.5 rounded-full bg-oak/15 text-oak peer-checked:bg-oak peer-checked:text-washi font-medium">
+                      A la carta &amp; maridaje
+                    </span>
+                  </div>
+                  <p class="text-xs opacity-80 mt-1.5 leading-relaxed">
+                    Mesas en barro negro y madera cálida con estética Wabi-Sabi, servicio a la carta y coctelería agave-sake.
+                  </p>
+                </div>
+              </label>
+
+              <label class="relative cursor-pointer">
+                <input
+                  type="radio"
+                  name="seatingSpace"
+                  value="Barra Omakase"
+                  class="peer sr-only"
+                  onchange="syncLivePreview()"
+                />
+                <div class="h-full rounded-2xl border border-oak/30 bg-washi p-4 transition peer-checked:border-sumi peer-checked:bg-sumi peer-checked:text-washi hover:border-oak">
+                  <div class="flex items-center justify-between gap-2">
+                    <span class="font-semibold text-sm">Barra Omakase</span>
+                    <span class="text-[11px] px-2 py-0.5 rounded-full bg-hanko/15 text-hanko peer-checked:bg-hanko peer-checked:text-white font-medium">
+                      Experiencia del chef
+                    </span>
+                  </div>
+                  <p class="text-xs opacity-80 mt-1.5 leading-relaxed">
+                    Degustación secuencial frente al itamae con cortes de precisión, fermentos y storytelling de origen.
+                  </p>
+                </div>
+              </label>
+            </div>
+          </div>
+
+          <!-- Registro rápido de alergias e intolerancias -->
+          <div class="pt-4 border-t border-oak/15">
+            <div class="flex flex-wrap items-center justify-between gap-2 mb-3">
+              <h3 class="text-xs font-bold uppercase tracking-wider text-sumiSoft">
+                Alergias o intolerancias alimentarias
+              </h3>
+              <button
+                type="button"
+                onclick="clearAllergies()"
+                class="text-xs font-medium text-oak hover:text-hanko underline underline-offset-2 cursor-pointer"
+              >
+                Limpiar selección
+              </button>
+            </div>
+
+            <div id="allergyChipsContainer" class="flex flex-wrap gap-2">
+              <!-- Generado o gestionado con botones interactivos -->
+              <button type="button" data-allergy="Mariscos y crustáceos" onclick="toggleAllergy(this)" class="chip-btn allergy-chip px-3.5 py-2 rounded-xl text-xs sm:text-sm font-medium border border-oak/30 bg-washi text-sumi hover:border-hanko cursor-pointer">
+                Mariscos y crustáceos
+              </button>
+              <button type="button" data-allergy="Pescado crudo / sashimi" onclick="toggleAllergy(this)" class="chip-btn allergy-chip px-3.5 py-2 rounded-xl text-xs sm:text-sm font-medium border border-oak/30 bg-washi text-sumi hover:border-hanko cursor-pointer">
+                Pescado crudo / sashimi
+              </button>
+              <button type="button" data-allergy="Soya / gluten" onclick="toggleAllergy(this)" class="chip-btn allergy-chip px-3.5 py-2 rounded-xl text-xs sm:text-sm font-medium border border-oak/30 bg-washi text-sumi hover:border-hanko cursor-pointer">
+                Soya / gluten
+              </button>
+              <button type="button" data-allergy="Cacahuate y frutos secos" onclick="toggleAllergy(this)" class="chip-btn allergy-chip px-3.5 py-2 rounded-xl text-xs sm:text-sm font-medium border border-oak/30 bg-washi text-sumi hover:border-hanko cursor-pointer">
+                Cacahuate y frutos secos
+              </button>
+              <button type="button" data-allergy="Lácteos" onclick="toggleAllergy(this)" class="chip-btn allergy-chip px-3.5 py-2 rounded-xl text-xs sm:text-sm font-medium border border-oak/30 bg-washi text-sumi hover:border-hanko cursor-pointer">
+                Lácteos
+              </button>
+              <button type="button" data-allergy="Chile / picante" onclick="toggleAllergy(this)" class="chip-btn allergy-chip px-3.5 py-2 rounded-xl text-xs sm:text-sm font-medium border border-oak/30 bg-washi text-sumi hover:border-hanko cursor-pointer">
+                Chile / picante
+              </button>
+              <button type="button" data-allergy="Huevo" onclick="toggleAllergy(this)" class="chip-btn allergy-chip px-3.5 py-2 rounded-xl text-xs sm:text-sm font-medium border border-oak/30 bg-washi text-sumi hover:border-hanko cursor-pointer">
+                Huevo
+              </button>
+              <button type="button" data-allergy="Sésamo / ajonjolí" onclick="toggleAllergy(this)" class="chip-btn allergy-chip px-3.5 py-2 rounded-xl text-xs sm:text-sm font-medium border border-oak/30 bg-washi text-sumi hover:border-hanko cursor-pointer">
+                Sésamo / ajonjolí
+              </button>
+            </div>
+
+            <!-- Sensibilidad a contaminación cruzada -->
+            <div class="mt-4 rounded-2xl bg-washi border border-oak/25 p-3.5 sm:p-4 flex items-start justify-between gap-4">
+              <div>
+                <label for="crossContamination" class="text-sm font-semibold text-sumi block cursor-pointer">
+                  Sensibilidad severa a contaminación cruzada
+                </label>
+                <p class="text-xs text-sumiSoft mt-0.5 leading-relaxed">
+                  Activa aislamiento estricto de tablas, cuchillos, freidora/wok y utensilios de emplatado antes de iniciar el servicio.
+                </p>
+              </div>
+              <input
+                type="checkbox"
+                id="crossContamination"
+                name="crossContamination"
+                onchange="syncLivePreview()"
+                class="mt-1 h-5 w-5 rounded border-oak/40 text-hanko focus:ring-hanko accent-[#B8332A] cursor-pointer shrink-0"
+              />
+            </div>
+
+            <!-- Notas libres sobre alergias u ocasiones -->
+            <div class="mt-4">
+              <label for="allergyNotes" class="block text-sm font-medium text-sumi mb-1.5">
+                Notas adicionales para cocina o barra (opcional)
+              </label>
+              <textarea
+                id="allergyNotes"
+                name="allergyNotes"
+                rows="2"
+                oninput="syncLivePreview()"
+                placeholder="Ej. Evitar chile serrano y habanero; intolerancia moderada a lactosa en postres; celebramos aniversario."
+                class="w-full rounded-xl bg-washi border border-oak/30 px-4 py-2.5 text-sm text-sumi placeholder:text-sumiSoft/55 focus:outline-none focus:ring-2 focus:ring-oak/40 focus:border-oak"
+              ></textarea>
+            </div>
+          </div>
+
+          <!-- Membresía opcional Club KIZUNA -->
+          <div class="pt-4 border-t border-oak/15">
+            <div class="flex flex-wrap items-center justify-between gap-1 mb-1.5">
+              <label for="clubKizunaId" class="text-sm font-medium text-sumi">
+                ID de socio Club KIZUNA <span class="text-xs font-normal text-sumiSoft">(opcional)</span>
+              </label>
+              <span class="text-[11px] font-medium text-oak">
+                10% en puntos acumulables + cenas omakase secretas
+              </span>
+            </div>
+            <input
+              type="text"
+              id="clubKizunaId"
+              name="clubKizunaId"
+              oninput="syncLivePreview()"
+              placeholder="Ej. KZN-0482 o tu correo registrado en Club KIZUNA"
+              class="w-full rounded-xl bg-washi border border-oak/30 px-4 py-2.5 text-sm text-sumi placeholder:text-sumiSoft/55 focus:outline-none focus:ring-2 focus:ring-oak/40 focus:border-oak"
+            />
+          </div>
+
+          <!-- Botón de envío -->
+          <div class="pt-2 flex flex-col sm:flex-row items-stretch sm:items-center justify-between gap-3">
+            <p class="text-xs text-sumiSoft">
+              Al confirmar se genera tu folio digital y la ficha preventiva para cocina.
+            </p>
+            <button
+              type="submit"
+              class="chip-btn px-6 py-3.5 rounded-xl bg-hanko hover:bg-[#9E2A22] text-white font-semibold text-sm shadow-wabi flex items-center justify-center gap-2 cursor-pointer shrink-0"
+            >
+              <span>Confirmar Reservación y Registro</span>
+              <span aria-hidden="true">→</span>
+            </button>
+          </div>
+        </form>
+      </div>
+
+      <!-- 3. Vista de Confirmación en Vivo + Alerta de Protocolo Cocina / Omotenashi (5 columnas en escritorio) -->
+      <aside id="confirmationPanel" class="lg:col-span-5 bg-washiCard border border-oak/30 rounded-3xl p-5 sm:p-7 shadow-wabi lg:sticky lg:top-6">
+        <div class="flex items-start justify-between gap-3 pb-4 border-b border-oak/15">
+          <div>
+            <span id="confirmStatusBadge" class="inline-flex items-center gap-1.5 text-[11px] font-bold uppercase tracking-widest px-2.5 py-1 rounded-full bg-washiDeep text-oak">
+              <span class="w-1.5 h-1.5 rounded-full bg-oak"></span>
+              Borrador en vivo
+            </span>
+            <h2 class="font-editorial text-2xl sm:text-3xl font-bold text-sumi mt-2">
+              Comprobante de Mesa
+            </h2>
+          </div>
+          <div class="text-right">
+            <span class="text-[11px] uppercase tracking-wider text-sumiSoft block">Folio</span>
+            <span id="folioCode" class="font-mono text-sm sm:text-base font-bold text-hanko bg-hankoSoft px-2.5 py-1 rounded-lg inline-block mt-0.5">
+              KZN-2026-084
+            </span>
+          </div>
+        </div>
+
+        <!-- Detalles de la reserva -->
+        <div class="mt-5 space-y-3 text-sm">
+          <div class="flex items-center justify-between gap-2 py-1.5 border-b border-dashed border-oak/20">
+            <span class="text-sumiSoft">Comensal</span>
+            <span id="previewName" class="font-semibold text-sumi text-right">Invitado KIZUNA</span>
+          </div>
+          <div class="flex items-center justify-between gap-2 py-1.5 border-b border-dashed border-oak/20">
+            <span class="text-sumiSoft">Contacto</span>
+            <span id="previewContact" class="font-medium text-sumi text-right text-xs sm:text-sm">Pendiente de capturar</span>
+          </div>
+          <div class="flex items-center justify-between gap-2 py-1.5 border-b border-dashed border-oak/20">
+            <span class="text-sumiSoft">Fecha y horario</span>
+            <span id="previewDateTime" class="font-semibold text-sumi text-right">Por definir · 19:00 hrs</span>
+          </div>
+          <div class="flex items-center justify-between gap-2 py-1.5 border-b border-dashed border-oak/20">
+            <span class="text-sumiSoft">Mesa y grupo</span>
+            <span id="previewSpaceParty" class="font-semibold text-sumi text-right">Salón Principal · 2 personas</span>
+          </div>
+          <div class="flex items-center justify-between gap-2 py-1.5 border-b border-dashed border-oak/20">
+            <span class="text-sumiSoft">Ticket estimado</span>
+            <span id="previewTicket" class="font-semibold text-oak text-right">$1,300 MXN (prom. $650 c/u)</span>
+          </div>
+          <div id="previewClubRow" class="hidden flex items-center justify-between gap-2 py-1.5 border-b border-dashed border-oak/20">
+            <span class="text-sumiSoft">Club KIZUNA</span>
+            <span id="previewClubId" class="font-semibold text-moss text-right"></span>
+          </div>
+        </div>
+
+        <!-- Resumen de alergias / intolerancias registradas -->
+        <div class="mt-5 rounded-2xl bg-washi border border-oak/25 p-4">
+          <div class="flex items-center justify-between gap-2 mb-2.5">
+            <h3 class="text-xs font-bold uppercase tracking-wider text-sumi">
+              Alergias e intolerancias registradas
+            </h3>
+            <span id="allergyCountLabel" class="text-xs font-semibold text-oak">0 seleccionadas</span>
+          </div>
+
+          <div id="previewAllergiesList" class="flex flex-wrap gap-1.5">
+            <span class="text-xs text-sumiSoft italic">Sin restricciones marcadas aún.</span>
+          </div>
+
+          <div id="previewCrossContamTag" class="hidden mt-3 text-xs font-semibold text-hanko bg-hankoSoft border border-hanko/30 rounded-xl px-3 py-2">
+            ⚠ Sensibilidad severa a contaminación cruzada activada
+          </div>
+
+          <p id="previewNotesBox" class="hidden mt-2.5 text-xs text-sumi bg-washiCard border border-oak/20 rounded-xl p-2.5 leading-relaxed"></p>
+        </div>
+
+        <!-- 4. Alerta de Protocolo de Cocina / Omotenashi (Distintivo H + trazabilidad + separación) -->
+        <div id="kitchenProtocolAlert" class="mt-5 rounded-2xl border p-4 transition-colors bg-mossSoft/70 border-moss/35">
+          <div class="flex items-start gap-3">
+            <div id="protocolIconBadge" class="w-9 h-9 rounded-xl bg-moss text-white flex items-center justify-center font-bold text-sm shrink-0">
+              H
+            </div>
+            <div class="min-w-0">
+              <div class="flex flex-wrap items-center gap-1.5">
+                <span id="protocolTitle" class="text-xs font-bold uppercase tracking-wider text-moss">
+                  Alerta Cocina &amp; Omotenashi · Estándar Preventivo
+                </span>
+              </div>
+              <p id="protocolDescription" class="text-xs text-sumi mt-1 leading-relaxed">
+                Cada comensal pasa por verificación de ingredientes bajo <strong>Distintivo H</strong>, trazabilidad de pescados y mariscos, y separación de tablas/utensilios. Al registrar alergias o contaminación cruzada, el itamae y la línea caliente reciben ficha prioritaria antes de tu llegada.
+              </p>
+              <ul class="mt-2.5 space-y-1 text-[11px] text-sumiSoft">
+                <li>• <strong class="text-sumi">Distintivo H:</strong> Bitácora digital de cadena de frío, higienización y separación de alérgenos.</li>
+                <li>• <strong class="text-sumi">Trazabilidad:</strong> Control de origen en pescados de barra fría, fermentos (koji) y recados.</li>
+                <li>• <strong class="text-sumi">Omotenashi:</strong> Confirmación verbal al recibir oshibori y adaptación de tiempos (8 min entradas / 15 min fuertes).</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+
+        <!-- Acciones rápidas del comprobante -->
+        <div class="mt-5 flex flex-wrap items-center justify-between gap-2 pt-3 border-t border-oak/15">
+          <button
+            type="button"
+            onclick="copyFolioSummary()"
+            class="chip-btn px-3.5 py-2 rounded-xl text-xs font-semibold border border-oak/35 bg-washi text-sumi hover:bg-washiDeep cursor-pointer"
+          >
+            Copiar resumen de folio
+          </button>
+          <button
+            type="button"
+            onclick="startNewReservation()"
+            class="chip-btn px-3.5 py-2 rounded-xl text-xs font-semibold text-oak hover:text-sumi cursor-pointer"
+          >
+            Nueva reservación
+          </button>
+        </div>
+      </aside>
+    </section>
+
+    <!-- VISTA 2: BITÁCORA DE RESERVACIONES Y ALERGIAS (PARA DEMO EN EXPOSICIÓN UNITEC) -->
+    <section id="viewRegistry" class="hidden animate-in-soft">
+      <div class="bg-washiCard border border-oak/25 rounded-3xl p-5 sm:p-8 shadow-wabi">
+        <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 pb-6 mb-6 border-b border-oak/15">
+          <div>
+            <span class="text-xs font-semibold uppercase tracking-[0.16em] text-oak">
+              Demostración operativa · UNITEC
+            </span>
+            <h2 class="font-editorial text-2xl sm:text-3xl font-bold text-sumi mt-0.5">
+              Registro previo de reservaciones y alergias
+            </h2>
+            <p class="text-xs sm:text-sm text-sumiSoft mt-1">
+              Consulta reservaciones guardadas localmente o carga un ejemplo rápido para mostrar el flujo de cocina y Omotenashi.
+            </p>
+          </div>
+
+          <div class="flex flex-wrap items-center gap-2">
+            <button
+              type="button"
+              onclick="loadSampleIntoForm()"
+              class="chip-btn px-3.5 py-2 rounded-xl text-xs font-semibold bg-washi border border-oak/35 text-sumi hover:border-oak cursor-pointer"
+            >
+              Cargar caso de prueba
+            </button>
+            <button
+              type="button"
+              onclick="resetDemoRegistry()"
+              class="chip-btn px-3.5 py-2 rounded-xl text-xs font-semibold border border-hanko/35 text-hanko hover:bg-hankoSoft cursor-pointer"
+            >
+              Restaurar 3 ejemplos
+            </button>
+          </div>
+        </div>
+
+        <!-- Filtros rápidos -->
+        <div class="flex flex-wrap items-center justify-between gap-3 mb-5">
+          <div class="flex flex-wrap gap-2">
+            <button
+              type="button"
+              data-filter="all"
+              onclick="setRegistryFilter('all', this)"
+              class="filter-btn chip-btn px-3.5 py-1.5 rounded-xl text-xs font-semibold bg-sumi text-washi cursor-pointer"
+            >
+              Todas
+            </button>
+            <button
+              type="button"
+              data-filter="alerts"
+              onclick="setRegistryFilter('alerts', this)"
+              class="filter-btn chip-btn px-3.5 py-1.5 rounded-xl text-xs font-semibold bg-washi border border-oak/30 text-sumi hover:border-oak cursor-pointer"
+            >
+              Con alerta de alergia / cruzada
+            </button>
+            <button
+              type="button"
+              data-filter="omakase"
+              onclick="setRegistryFilter('omakase', this)"
+              class="filter-btn chip-btn px-3.5 py-1.5 rounded-xl text-xs font-semibold bg-washi border border-oak/30 text-sumi hover:border-oak cursor-pointer"
+            >
+              Barra Omakase
+            </button>
+          </div>
+          <span id="filteredCountText" class="text-xs text-sumiSoft font-medium"></span>
+        </div>
+
+        <!-- Tarjetas de reservaciones guardadas -->
+        <div id="savedReservationsList" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4"></div>
+      </div>
+    </section>
+  </main>
+
+  <!-- Pie de página -->
+  <footer class="border-t border-oak/20 bg-washiCard/70 py-6 px-4 sm:px-6 mt-auto">
+    <div class="max-w-6xl mx-auto flex flex-col sm:flex-row items-center justify-between gap-3 text-xs text-sumiSoft">
+      <div class="flex items-center gap-2">
+        <span class="font-editorial text-lg font-bold text-sumi">絆 KIZUNA</span>
+        <span>· Lazo de sabores · Ciudad Satélite, Naucalpan, Edo. Méx.</span>
+      </div>
+      <div>
+        Proyecto Integrador · Montaje y Arte al Plato (UNITEC) · Mar–Dom 13:30–23:00
+      </div>
+    </div>
+  </footer>
+
+  <script>
+    // Clave para almacenamiento local (demostración y persistencia en el navegador)
+    const STORAGE_KEY = 'kizuna_reservations_v1';
+
+    // Reservaciones iniciales de ejemplo para probar el flujo durante la presentación
+    const DEFAULT_RESERVATIONS = [
+      {
+        folio: 'KZN-2026-101',
+        guestName: 'Mariana Castellanos Ríos',
+        guestEmail: 'mariana.castellanos@ejemplo.mx',
+        guestPhone: '55 7120 4498',
+        date: getUpcomingWeekdayDate(2), // Martes o día hábil próximo
+        time: '19:30',
+        partySize: 2,
+        seatingSpace: 'Barra Omakase',
+        allergies: ['Mariscos y crustáceos', 'Sésamo / ajonjolí'],
+        crossContamination: true,
+        notes: 'Alergia severa a camarón y jaiba; evitar aceite y semillas de ajonjolí en el montaje.',
+        clubKizunaId: 'KZN-0194',
+        createdAt: 'Hoy · 11:20',
+      },
+      {
+        folio: 'KZN-2026-102',
+        guestName: 'Diego Alejandro Fuentes',
+        guestEmail: 'd.fuentes@ejemplo.mx',
+        guestPhone: '55 3901 8821',
+        date: getUpcomingWeekdayDate(3),
+        time: '14:30',
+        partySize: 4,
+        seatingSpace: 'Salón Principal',
+        allergies: ['Soya / gluten'],
+        crossContamination: false,
+        notes: 'Prefiere opciones sin soya tradicional o con aminos/alternativas cuando sea posible.',
+        clubKizunaId: '',
+        createdAt: 'Ayer · 18:45',
+      },
+      {
+        folio: 'KZN-2026-103',
+        guestName: 'Sofía Hernández Navarro',
+        guestEmail: 'sofia.hernandez@ejemplo.mx',
+        guestPhone: '55 6284 1093',
+        date: getUpcomingWeekdayDate(4),
+        time: '20:15',
+        partySize: 2,
+        seatingSpace: 'Salón Principal',
+        allergies: [],
+        crossContamination: false,
+        notes: 'Celebración de aniversario; interesa maridaje de mezcal y sake.',
+        clubKizunaId: 'KZN-0312',
+        createdAt: 'Ayer · 15:10',
+      },
+    ];
+
+    let activeFilter = 'all';
+    let currentFolio = generateFolioNumber();
+    let isConfirmedState = false;
+
+    /**
+     * Genera una fecha futura válida de martes a domingo (YYYY-MM-DD)
+     * para que el formulario inicie listo para probar sin errores de día cerrado.
+     */
+    function getUpcomingWeekdayDate(offsetDays = 1) {
+      const d = new Date();
+      d.setDate(d.getDate() + offsetDays);
+      // 0 = Domingo, 1 = Lunes (cerrado) -> si cae lunes, avanzar a martes
+      if (d.getDay() === 1) {
+        d.setDate(d.getDate() + 1);
+      }
+      return d.toISOString().split('T')[0];
+    }
+
+    /**
+     * Genera un folio legible tipo KZN-2026-XXX
+     */
+    function generateFolioNumber() {
+      const num = Math.floor(110 + Math.random() * 889);
+      return `KZN-2026-${num}`;
+    }
+
+    /**
+     * Obtiene reservaciones desde localStorage o inicializa con ejemplos
+     */
+    function getReservations() {
+      try {
+        const raw = localStorage.getItem(STORAGE_KEY);
+        if (!raw) {
+          localStorage.setItem(STORAGE_KEY, JSON.stringify(DEFAULT_RESERVATIONS));
+          return [...DEFAULT_RESERVATIONS];
+        }
+        const parsed = JSON.parse(raw);
+        return Array.isArray(parsed) ? parsed : [...DEFAULT_RESERVATIONS];
+      } catch (err) {
+        console.error('Error al leer reservaciones locales:', err);
+        return [...DEFAULT_RESERVATIONS];
+      }
+    }
+
+    /**
+     * Guarda reservaciones en localStorage de forma segura
+     */
+    function saveReservations(list) {
+      try {
+        localStorage.setItem(STORAGE_KEY, JSON.stringify(list));
+      } catch (err) {
+        console.error('Error al guardar reservaciones locales:', err);
+      }
+    }
+
+    /**
+     * Muestra mensaje de estado discreto sin usar alert() ni confirm()
+     */
+    function showToast(message, type = 'success') {
+      const banner = document.getElementById('toastBanner');
+      if (!banner) return;
+
+      banner.className = 'mb-6 rounded-2xl px-4 py-3 text-sm font-medium border animate-in-soft flex items-center justify-between gap-3';
+      if (type === 'success') {
+        banner.classList.add('bg-mossSoft', 'border-moss/40', 'text-moss');
+      } else if (type === 'warn') {
+        banner.classList.add('bg-amberSoft', 'border-amberAlert/40', 'text-amberAlert');
+      } else {
+        banner.classList.add('bg-hankoSoft', 'border-hanko/40', 'text-hanko');
+      }
+
+      banner.innerHTML = `
+        <span>${escapeHtml(message)}</span>
+        <button type="button" onclick="hideToast()" class="text-xs font-bold underline cursor-pointer">Cerrar</button>
+      `;
+      banner.classList.remove('hidden');
+    }
+
+    function hideToast() {
+      const banner = document.getElementById('toastBanner');
+      if (banner) banner.classList.add('hidden');
+    }
+
+    /**
+     * Escapa caracteres HTML para evitar inyección en vistas dinámicas
+     */
+    function escapeHtml(str) {
+      return String(str || '')
+        .replace(/&/g, '&amp;')
+        .replace(/</g, '&lt;')
+        .replace(/>/g, '&gt;')
+        .replace(/"/g, '&quot;')
+        .replace(/'/g, '&#39;');
+    }
+
+    /**
+     * Cambia entre la pestaña de Reservación y la Bitácora de Reservaciones
+     */
+    function switchTab(tabName) {
+      const resView = document.getElementById('viewReservation');
+      const regView = document.getElementById('viewRegistry');
+      const resBtn = document.getElementById('tabReservationBtn');
+      const regBtn = document.getElementById('tabRegistryBtn');
+
+      if (tabName === 'registry') {
+        resView.classList.add('hidden');
+        regView.classList.remove('hidden');
+
+        regBtn.className = 'chip-btn px-4 sm:px-5 py-2.5 rounded-xl text-sm font-semibold flex items-center gap-2 bg-sumi text-washi shadow-card cursor-pointer';
+        resBtn.className = 'chip-btn px-4 sm:px-5 py-2.5 rounded-xl text-sm font-semibold flex items-center gap-2 bg-washi border border-oak/30 text-sumi hover:border-oak cursor-pointer';
+        renderSavedReservations();
+      } else {
+        regView.classList.add('hidden');
+        resView.classList.remove('hidden');
+
+        resBtn.className = 'chip-btn px-4 sm:px-5 py-2.5 rounded-xl text-sm font-semibold flex items-center gap-2 bg-sumi text-washi shadow-card cursor-pointer';
+        regBtn.className = 'chip-btn px-4 sm:px-5 py-2.5 rounded-xl text-sm font-semibold flex items-center gap-2 bg-washi border border-oak/30 text-sumi hover:border-oak cursor-pointer';
+      }
+    }
+
+    /**
+     * Alterna selección de un chip de alergia o intolerancia
+     */
+    function toggleAllergy(buttonEl) {
+      const isSelected = buttonEl.dataset.selected === 'true';
+      if (isSelected) {
+        buttonEl.dataset.selected = 'false';
+        buttonEl.classList.remove('bg-hanko', 'text-white', 'border-hanko');
+        buttonEl.classList.add('bg-washi', 'text-sumi', 'border-oak/30');
+      } else {
+        buttonEl.dataset.selected = 'true';
+        buttonEl.classList.remove('bg-washi', 'text-sumi', 'border-oak/30');
+        buttonEl.classList.add('bg-hanko', 'text-white', 'border-hanko');
+      }
+      syncLivePreview();
+    }
+
+    /**
+     * Limpia todos los chips de alergias seleccionados
+     */
+    function clearAllergies() {
+      document.querySelectorAll('.allergy-chip').forEach((btn) => {
+        btn.dataset.selected = 'false';
+        btn.classList.remove('bg-hanko', 'text-white', 'border-hanko');
+        btn.classList.add('bg-washi', 'text-sumi', 'border-oak/30');
+      });
+      syncLivePreview();
+    }
+
+    /**
+     * Recupera el arreglo de alergias actualmente seleccionadas
+     */
+    function getSelectedAllergies() {
+      return Array.from(document.querySelectorAll('.allergy-chip'))
+        .filter((btn) => btn.dataset.selected === 'true')
+        .map((btn) => btn.dataset.allergy);
+    }
+
+    /**
+     * Valida que la fecha elegida corresponda a Martes–Domingo (KIZUNA descansa los lunes)
+     */
+    function validateDateAndUpdateSlots() {
+      const dateInput = document.getElementById('resDate');
+      const errDate = document.getElementById('errResDate');
+      if (!dateInput || !dateInput.value) return true;
+
+      const [y, m, d] = dateInput.value.split('-').map(Number);
+      const dayOfWeek = new Date(y, m - 1, d).getDay(); // 1 = Lunes
+
+      if (dayOfWeek === 1) {
+        errDate.textContent = 'KIZUNA opera de martes a domingo (13:30–23:00). Selecciona otro día.';
+        errDate.classList.remove('hidden');
+        return false;
+      }
+
+      errDate.classList.add('hidden');
+      syncLivePreview();
+      return true;
+    }
+
+    /**
+     * Formatea fecha YYYY-MM-DD a español legible
+     */
+    function formatReadableDate(isoDate) {
+      if (!isoDate) return 'Por definir';
+      const [y, m, d] = isoDate.split('-').map(Number);
+      const dt = new Date(y, m - 1, d);
+      return dt.toLocaleDateString('es-MX', {
+        weekday: 'short',
+        day: 'numeric',
+        month: 'short',
+        year: 'numeric',
+      });
+    }
+
+    /**
+     * Sincroniza la tarjeta de confirmación en vivo y el panel de protocolo de cocina/Omotenashi
+     */
+    function syncLivePreview() {
+      const name = (document.getElementById('guestName')?.value || '').trim();
+      const email = (document.getElementById('guestEmail')?.value || '').trim();
+      const phone = (document.getElementById('guestPhone')?.value || '').trim();
+      const dateVal = document.getElementById('resDate')?.value || '';
+      const timeVal = document.getElementById('resTime')?.value || '19:00';
+      const party = Number(document.getElementById('partySize')?.value || 2);
+      const space = document.querySelector('input[name="seatingSpace"]:checked')?.value || 'Salón Principal';
+      const allergies = getSelectedAllergies();
+      const crossContam = Boolean(document.getElementById('crossContamination')?.checked);
+      const notes = (document.getElementById('allergyNotes')?.value || '').trim();
+      const clubId = (document.getElementById('clubKizunaId')?.value || '').trim();
+
+      document.getElementById('folioCode').textContent = currentFolio;
+      document.getElementById('previewName').textContent = name || 'Invitado KIZUNA';
+
+      if (email && phone) {
+        document.getElementById('previewContact').textContent = `${phone} · ${email}`;
+      } else if (phone || email) {
+        document.getElementById('previewContact').textContent = phone || email;
+      } else {
+        document.getElementById('previewContact').textContent = 'Pendiente de capturar';
+      }
+
+      document.getElementById('previewDateTime').textContent = `${formatReadableDate(dateVal)} · ${timeVal} hrs`;
+      document.getElementById('previewSpaceParty').textContent = `${space} · ${party} ${party === 1 ? 'persona' : 'personas'}`;
+
+      const estimatedTotal = party * 650;
+      document.getElementById('previewTicket').textContent = `$${estimatedTotal.toLocaleString('es-MX')} MXN (prom. $650 c/u)`;
+
+      const clubRow = document.getElementById('previewClubRow');
+      if (clubId) {
+        clubRow.classList.remove('hidden');
+        clubRow.classList.add('flex');
+        document.getElementById('previewClubId').textContent = clubId;
+      } else {
+        clubRow.classList.add('hidden');
+        clubRow.classList.remove('flex');
+      }
+
+      // Resumen de alergias
+      const countLabel = document.getElementById('allergyCountLabel');
+      const listContainer = document.getElementById('previewAllergiesList');
+      countLabel.textContent = `${allergies.length} ${allergies.length === 1 ? 'seleccionada' : 'seleccionadas'}`;
+
+      if (allergies.length === 0) {
+        listContainer.innerHTML = '<span class="text-xs text-sumiSoft italic">Sin alergias o intolerancias marcadas.</span>';
+      } else {
+        listContainer.innerHTML = allergies
+          .map(
+            (item) =>
+              `<span class="inline-flex items-center px-2.5 py-1 rounded-lg text-xs font-semibold bg-hankoSoft text-hanko border border-hanko/25">${escapeHtml(item)}</span>`
+          )
+          .join('');
+      }
+
+      const crossTag = document.getElementById('previewCrossContamTag');
+      if (crossContam) {
+        crossTag.classList.remove('hidden');
+      } else {
+        crossTag.classList.add('hidden');
+      }
+
+      const notesBox = document.getElementById('previewNotesBox');
+      if (notes) {
+        notesBox.textContent = `Nota de cocina/sala: “${notes}”`;
+        notesBox.classList.remove('hidden');
+      } else {
+        notesBox.classList.add('hidden');
+      }
+
+      // Actualizar intensidad de la alerta de Protocolo Cocina / Omotenashi
+      updateKitchenProtocolAlert(allergies, crossContam, space);
+    }
+
+    /**
+     * Ajusta el nivel de alerta visual según si hay alergias o sensibilidad a contaminación cruzada
+     */
+    function updateKitchenProtocolAlert(allergies, crossContam, space) {
+      const box = document.getElementById('kitchenProtocolAlert');
+      const icon = document.getElementById('protocolIconBadge');
+      const title = document.getElementById('protocolTitle');
+      const desc = document.getElementById('protocolDescription');
+
+      const hasRisk = allergies.length > 0 || crossContam;
+
+      box.classList.remove('bg-mossSoft/70', 'border-moss/35', 'bg-hankoSoft/75', 'border-hanko/40', 'bg-amberSoft/80', 'border-amberAlert/40');
+      icon.classList.remove('bg-moss', 'bg-hanko', 'bg-amberAlert');
+      title.classList.remove('text-moss', 'text-hanko', 'text-amberAlert');
+
+      if (crossContam || allergies.length >= 2) {
+        box.classList.add('bg-hankoSoft/75', 'border-hanko/40');
+        icon.classList.add('bg-hanko');
+        icon.textContent = '!';
+        title.classList.add('text-hanko');
+        title.textContent = `Alerta Crítica Cocina & Omotenashi · ${space}`;
+        desc.innerHTML = `Se activa <strong>aislamiento estricto</strong> de tablas, cuchillos, freidora/wok y estación de montaje bajo <strong>Distintivo H</strong>. El chef/itamae revisará cada tiempo y trazabilidad antes del pase.`;
+      } else if (hasRisk) {
+        box.classList.add('bg-amberSoft/80', 'border-amberAlert/40');
+        icon.classList.add('bg-amberAlert');
+        icon.textContent = 'H+';
+        title.classList.add('text-amberAlert');
+        title.textContent = `Protocolo Preventivo Activo · ${space}`;
+        desc.innerHTML = `Cocina y barra prepararán sustituciones seguras verificando <strong>Distintivo H</strong>, cadena de frío y trazabilidad de insumos. El capitán de meseros confirmará al aplicar el <em>oshibori</em>.`;
+      } else {
+        box.classList.add('bg-mossSoft/70', 'border-moss/35');
+        icon.classList.add('bg-moss');
+        icon.textContent = 'H';
+        title.classList.add('text-moss');
+        title.textContent = `Estándar Distintivo H & Omotenashi · ${space}`;
+        desc.innerHTML = `Todos los montajes se elaboran bajo <strong>Distintivo H</strong>, trazabilidad de pescados y fermentos artesanales, y hospitalidad <strong>Omotenashi</strong> en Ciudad Satélite.`;
+      }
+    }
+
+    /**
+     * Valida y guarda la reservación en el estado local
+     */
+    function handleReservationSubmit(event) {
+      event.preventDefault();
+
+      const nameInput = document.getElementById('guestName');
+      const emailInput = document.getElementById('guestEmail');
+      const phoneInput = document.getElementById('guestPhone');
+      const dateInput = document.getElementById('resDate');
+
+      const errName = document.getElementById('errGuestName');
+      const errEmail = document.getElementById('errGuestEmail');
+      const errPhone = document.getElementById('errGuestPhone');
+
+      let valid = true;
+
+      const name = nameInput.value.trim();
+      const email = emailInput.value.trim();
+      const phone = phoneInput.value.trim();
+
+      if (!name) {
+        errName.classList.remove('hidden');
+        valid = false;
+      } else {
+        errName.classList.add('hidden');
+      }
+
+      const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+      if (!email || !emailRegex.test(email)) {
+        errEmail.classList.remove('hidden');
+        valid = false;
+      } else {
+        errEmail.classList.add('hidden');
+      }
+
+      if (!phone || phone.replace(/\D/g, '').length < 7) {
+        errPhone.classList.remove('hidden');
+        valid = false;
+      } else {
+        errPhone.classList.add('hidden');
+      }
+
+      if (!validateDateAndUpdateSlots() || !dateInput.value) {
+        document.getElementById('errResDate').classList.remove('hidden');
+        valid = false;
+      }
+
+      if (!valid) {
+        showToast('Revisa los campos obligatorios antes de confirmar tu reservación.', 'error');
+        return;
+      }
+
+      const record = {
+        folio: currentFolio,
+        guestName: name,
+        guestEmail: email,
+        guestPhone: phone,
+        date: dateInput.value,
+        time: document.getElementById('resTime').value,
+        partySize: Number(document.getElementById('partySize').value || 2),
+        seatingSpace: document.querySelector('input[name="seatingSpace"]:checked')?.value || 'Salón Principal',
+        allergies: getSelectedAllergies(),
+        crossContamination: Boolean(document.getElementById('crossContamination').checked),
+        notes: (document.getElementById('allergyNotes').value || '').trim(),
+        clubKizunaId: (document.getElementById('clubKizunaId').value || '').trim(),
+        createdAt: 'Confirmada hoy',
+      };
+
+      const existing = getReservations();
+      const updated = [record, ...existing];
+      saveReservations(updated);
+
+      isConfirmedState = true;
+      const badge = document.getElementById('confirmStatusBadge');
+      badge.className = 'inline-flex items-center gap-1.5 text-[11px] font-bold uppercase tracking-widest px-2.5 py-1 rounded-full bg-mossSoft text-moss';
+      badge.innerHTML = '<span class="w-1.5 h-1.5 rounded-full bg-moss"></span> Reservación Confirmada';
+
+      syncLivePreview();
+      updateRegistryBadge();
+      renderSavedReservations();
+
+      showToast(
+        `Folio ${record.folio} confirmado para ${record.guestName} (${record.seatingSpace}, ${formatReadableDate(record.date)} · ${record.time} hrs).`,
+        record.allergies.length > 0 || record.crossContamination ? 'warn' : 'success'
+      );
+
+      // Desplazar suavemente hacia el comprobante en pantallas pequeñas
+      if (window.innerWidth < 1024) {
+        document.getElementById('confirmationPanel')?.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+      }
+    }
+
+    /**
+     * Reinicia el formulario para capturar una nueva reservación con nuevo folio
+     */
+    function startNewReservation() {
+      currentFolio = generateFolioNumber();
+      isConfirmedState = false;
+      document.getElementById('reservationForm').reset();
+      document.getElementById('resDate').value = getUpcomingWeekdayDate(2);
+      document.getElementById('resTime').value = '19:00';
+      clearAllergies();
+
+      const badge = document.getElementById('confirmStatusBadge');
+      badge.className = 'inline-flex items-center gap-1.5 text-[11px] font-bold uppercase tracking-widest px-2.5 py-1 rounded-full bg-washiDeep text-oak';
+      badge.innerHTML = '<span class="w-1.5 h-1.5 rounded-full bg-oak"></span> Borrador en vivo';
+
+      syncLivePreview();
+      hideToast();
+    }
+
+    /**
+     * Copia un resumen legible del folio y alergias usando execCommand con respaldo seguro
+     */
+    function copyFolioSummary() {
+      const name = document.getElementById('previewName').textContent;
+      const dt = document.getElementById('previewDateTime').textContent;
+      const sp = document.getElementById('previewSpaceParty').textContent;
+      const allergies = getSelectedAllergies();
+      const cross = document.getElementById('crossContamination').checked ? 'Sí' : 'No';
+
+      const summaryText = [
+        `KIZUNA — Lazo de sabores | Folio: ${currentFolio}`,
+        `Comensal: ${name}`,
+        `Fecha/Hora: ${dt}`,
+        `Espacio/Grupo: ${sp}`,
+        `Alergias/Intolerancias: ${allergies.length ? allergies.join(', ') : 'Ninguna'}`,
+        `Contaminación cruzada severa: ${cross}`,
+      ].join('\n');
+
+      try {
+        const ta = document.createElement('textarea');
+        ta.value = summaryText;
+        ta.setAttribute('readonly', '');
+        ta.style.position = 'fixed';
+        ta.style.opacity = '0';
+        document.body.appendChild(ta);
+        ta.select();
+        document.execCommand('copy');
+        document.body.removeChild(ta);
+        showToast(`Resumen del folio ${currentFolio} copiado al portapapeles.`, 'success');
+      } catch (err) {
+        showToast('No se pudo copiar automáticamente, pero puedes ver el folio en pantalla.', 'warn');
+      }
+    }
+
+    /**
+     * Actualiza el contador de reservaciones guardadas en la pestaña
+     */
+    function updateRegistryBadge() {
+      const list = getReservations();
+      const badge = document.getElementById('registryCountBadge');
+      if (badge) badge.textContent = String(list.length);
+    }
+
+    /**
+     * Cambia el filtro de la bitácora de reservaciones
+     */
+    function setRegistryFilter(filterKey, btnEl) {
+      activeFilter = filterKey;
+      document.querySelectorAll('.filter-btn').forEach((btn) => {
+        btn.className = 'filter-btn chip-btn px-3.5 py-1.5 rounded-xl text-xs font-semibold bg-washi border border-oak/30 text-sumi hover:border-oak cursor-pointer';
+      });
+      if (btnEl) {
+        btnEl.className = 'filter-btn chip-btn px-3.5 py-1.5 rounded-xl text-xs font-semibold bg-sumi text-washi cursor-pointer';
+      }
+      renderSavedReservations();
+    }
+
+    /**
+     * Renderiza la bitácora de reservaciones guardadas en el navegador
+     */
+    function renderSavedReservations() {
+      const container = document.getElementById('savedReservationsList');
+      const countText = document.getElementById('filteredCountText');
+      if (!container) return;
+
+      const all = getReservations();
+      const filtered = all.filter((item) => {
+        if (activeFilter === 'alerts') {
+          return (item.allergies && item.allergies.length > 0) || Boolean(item.crossContamination);
+        }
+        if (activeFilter === 'omakase') {
+          return item.seatingSpace === 'Barra Omakase';
+        }
+        return true;
+      });
+
+      if (countText) {
+        countText.textContent = `Mostrando ${filtered.length} de ${all.length} reservaciones`;
+      }
+
+      if (filtered.length === 0) {
+        container.innerHTML = `
+          <div class="col-span-full rounded-2xl border border-dashed border-oak/35 bg-washi p-8 text-center">
+            <p class="text-sm font-medium text-sumi">No hay reservaciones que coincidan con este filtro.</p>
+            <p class="text-xs text-sumiSoft mt-1">Crea una nueva en la primera pestaña o cambia el filtro activo.</p>
+          </div>
+        `;
+        return;
+      }
+
+      container.innerHTML = filtered
+        .map((item) => {
+          const hasAlert = (item.allergies && item.allergies.length > 0) || Boolean(item.crossContamination);
+          const allergyBadges =
+            item.allergies && item.allergies.length > 0
+              ? item.allergies
+                  .map(
+                    (a) =>
+                      `<span class="px-2 py-0.5 rounded-md text-[11px] font-semibold bg-hankoSoft text-hanko border border-hanko/20">${escapeHtml(a)}</span>`
+                  )
+                  .join('')
+              : '<span class="text-xs text-moss font-medium">Sin alergias declaradas</span>';
+
+          return `
+            <article class="rounded-2xl border ${hasAlert ? 'border-hanko/35 bg-washi' : 'border-oak/25 bg-washi'} p-4 flex flex-col justify-between gap-4 shadow-card">
+              <div>
+                <div class="flex items-center justify-between gap-2 pb-2.5 border-b border-oak/15">
+                  <span class="font-mono text-xs font-bold text-hanko bg-hankoSoft px-2 py-0.5 rounded-md">
+                    ${escapeHtml(item.folio)}
+                  </span>
+                  <span class="text-[11px] font-semibold px-2 py-0.5 rounded-full ${
+                    item.seatingSpace === 'Barra Omakase'
+                      ? 'bg-sumi text-washi'
+                      : 'bg-washiDeep text-sumi'
+                  }">
+                    ${escapeHtml(item.seatingSpace)}
+                  </span>
+                </div>
+
+                <h3 class="font-editorial text-xl font-bold text-sumi mt-3 leading-tight">
+                  ${escapeHtml(item.guestName)}
+                </h3>
+                <p class="text-xs text-sumiSoft mt-1">
+                  ${escapeHtml(formatReadableDate(item.date))} · ${escapeHtml(item.time)} hrs · ${escapeHtml(String(item.partySize))} ${item.partySize === 1 ? 'persona' : 'personas'}
+                </p>
+                <p class="text-[11px] text-sumiSoft mt-0.5">
+                  ${escapeHtml(item.guestPhone)} · ${escapeHtml(item.guestEmail)}
+                </p>
+
+                <div class="mt-3 pt-2.5 border-t border-dashed border-oak/20">
+                  <span class="text-[11px] font-bold uppercase tracking-wider text-sumiSoft block mb-1.5">
+                    Alergias / Intolerancias
+                  </span>
+                  <div class="flex flex-wrap gap-1.5">
+                    ${allergyBadges}
+                  </div>
+                  ${
+                    item.crossContamination
+                      ? '<p class="mt-2 text-[11px] font-bold text-hanko">⚠ Contaminación cruzada severa</p>'
+                      : ''
+                  }
+                  ${
+                    item.notes
+                      ? `<p class="mt-1.5 text-xs text-sumiSoft italic">“${escapeHtml(item.notes)}”</p>`
+                      : ''
+                  }
+                  ${
+                    item.clubKizunaId
+                      ? `<p class="mt-1.5 text-[11px] font-semibold text-oak">Club KIZUNA: ${escapeHtml(item.clubKizunaId)}</p>`
+                      : ''
+                  }
+                </div>
+              </div>
+
+              <div class="flex items-center justify-between gap-2 pt-2 border-t border-oak/15">
+                <button
+                  type="button"
+                  onclick='loadRecordIntoForm(${JSON.stringify(item.folio)})'
+                  class="text-xs font-semibold text-sumi hover:text-hanko underline underline-offset-2 cursor-pointer"
+                >
+                  Cargar en comprobante
+                </button>
+                <button
+                  type="button"
+                  onclick='deleteReservation(${JSON.stringify(item.folio)})'
+                  class="text-xs font-medium text-sumiSoft hover:text-hanko cursor-pointer"
+                >
+                  Eliminar
+                </button>
+              </div>
+            </article>
+          `;
+        })
+        .join('');
+    }
+
+    /**
+     * Carga una reservación guardada en el formulario y comprobante para demostrar el flujo
+     */
+    function loadRecordIntoForm(folio) {
+      const list = getReservations();
+      const target = list.find((r) => r.folio === folio);
+      if (!target) return;
+
+      currentFolio = target.folio;
+      document.getElementById('guestName').value = target.guestName || '';
+      document.getElementById('guestEmail').value = target.guestEmail || '';
+      document.getElementById('guestPhone').value = target.guestPhone || '';
+      document.getElementById('resDate').value = target.date || getUpcomingWeekdayDate(2);
+      document.getElementById('resTime').value = target.time || '19:00';
+      document.getElementById('partySize').value = String(target.partySize || 2);
+
+      const radios = document.querySelectorAll('input[name="seatingSpace"]');
+      radios.forEach((r) => {
+        r.checked = r.value === target.seatingSpace;
+      });
+
+      const selectedSet = new Set(target.allergies || []);
+      document.querySelectorAll('.allergy-chip').forEach((btn) => {
+        const active = selectedSet.has(btn.dataset.allergy);
+        btn.dataset.selected = active ? 'true' : 'false';
+        btn.classList.toggle('bg-hanko', active);
+        btn.classList.toggle('text-white', active);
+        btn.classList.toggle('border-hanko', active);
+        btn.classList.toggle('bg-washi', !active);
+        btn.classList.toggle('text-sumi', !active);
+        btn.classList.toggle('border-oak/30', !active);
+      });
+
+      document.getElementById('crossContamination').checked = Boolean(target.crossContamination);
+      document.getElementById('allergyNotes').value = target.notes || '';
+      document.getElementById('clubKizunaId').value = target.clubKizunaId || '';
+
+      syncLivePreview();
+      switchTab('reservation');
+      showToast(`Se cargó el folio ${target.folio} (${target.guestName}) en la vista de comprobante y cocina.`, 'warn');
+    }
+
+    /**
+     * Carga un caso de prueba completo con alergias múltiples y contaminación cruzada
+     */
+    function loadSampleIntoForm() {
+      currentFolio = generateFolioNumber();
+      document.getElementById('guestName').value = 'Carlos Alberto Salinas';
+      document.getElementById('guestEmail').value = 'carlos.salinas@ejemplo.mx';
+      document.getElementById('guestPhone').value = '55 8419 2207';
+      document.getElementById('resDate').value = getUpcomingWeekdayDate(2);
+      document.getElementById('resTime').value = '20:15';
+      document.getElementById('partySize').value = '2';
+
+      document.querySelectorAll('input[name="seatingSpace"]').forEach((r) => {
+        r.checked = r.value === 'Barra Omakase';
+      });
+
+      const sampleAllergies = new Set(['Cacahuate y frutos secos', 'Lácteos', 'Chile / picante']);
+      document.querySelectorAll('.allergy-chip').forEach((btn) => {
+        const active = sampleAllergies.has(btn.dataset.allergy);
+        btn.dataset.selected = active ? 'true' : 'false';
+        btn.classList.toggle('bg-hanko', active);
+        btn.classList.toggle('text-white', active);
+        btn.classList.toggle('border-hanko', active);
+        btn.classList.toggle('bg-washi', !active);
+        btn.classList.toggle('text-sumi', !active);
+        btn.classList.toggle('border-oak/30', !active);
+      });
+
+      document.getElementById('crossContamination').checked = true;
+      document.getElementById('allergyNotes').value = 'Evitar cacahuate, crema/queso y chiles secos; sin picante en salsas ni ponzu.';
+      document.getElementById('clubKizunaId').value = 'KZN-0529';
+
+      syncLivePreview();
+      switchTab('reservation');
+      showToast('Caso de prueba cargado con alerta crítica de alergias y contaminación cruzada.', 'warn');
+    }
+
+    /**
+     * Elimina una reservación específica del almacenamiento local
+     */
+    function deleteReservation(folio) {
+      const updated = getReservations().filter((r) => r.folio !== folio);
+      saveReservations(updated);
+      updateRegistryBadge();
+      renderSavedReservations();
+      showToast(`Reservación ${folio} eliminada de la bitácora local.`, 'success');
+    }
+
+    /**
+     * Restaura las 3 reservaciones de ejemplo originales
+     */
+    function resetDemoRegistry() {
+      saveReservations([...DEFAULT_RESERVATIONS]);
+      updateRegistryBadge();
+      renderSavedReservations();
+      showToast('Bitácora restaurada con las 3 reservaciones de ejemplo para UNITEC.', 'success');
+    }
+
+    // Inicialización al cargar el documento
+    document.addEventListener('DOMContentLoaded', () => {
+      const dateInput = document.getElementById('resDate');
+      if (dateInput && !dateInput.value) {
+        dateInput.value = getUpcomingWeekdayDate(2);
+      }
+      updateRegistryBadge();
+      renderSavedReservations();
+      syncLivePreview();
+    });
+  </script>
+</body>
+</html>
